@@ -1,0 +1,25 @@
+﻿[sources]
+
+[[sources.rss]]
+name = "Andrew Lock Blog"
+url = "https://andrewlock.net/rss.xml"
+
+[[sources.atom]]
+name = "Mark Seemann Blog"
+url = "https://blog.ploeh.dk/atom.xml"
+
+[[sources.rss]]
+name = "DZone"
+url = "https://feeds.dzone.com/home"
+
+[[sources.rss]]
+name = "Hacker News"
+url = "https://news.ycombinator.com/rss"
+
+[[sources.html]]
+name = "Some website"
+url = "https://somewebsite.com/"
+selector = "article h2"
+
+[settings]
+update_interval = "10m"  # Time interval between checks (e.g., 10m, 1h, etc.)
