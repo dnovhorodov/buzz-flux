@@ -1,4 +1,6 @@
-﻿# BuzzFlux
+﻿<img src="https://img.shields.io/badge/dnovhorodov/buzz--flux-8da0cb?style=for-the-badge&labelColor=555555&color=8da0cb&logo=github">
+
+# BuzzFlux
 
 TechNews Aggregator
 
