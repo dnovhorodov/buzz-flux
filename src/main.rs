@@ -1,14 +1,14 @@
-use tracing_subscriber::fmt;
 use crate::config::Config;
+use tracing_subscriber::fmt;
 
 mod config;
 mod crawler;
+mod db;
 mod parser;
 mod scheduler;
-mod db;
 
 #[tokio::main]
-async fn main() -> Result<(), anyhow::Error>{
+async fn main() -> Result<(), anyhow::Error> {
     // Initialize logging
     fmt::init();
 

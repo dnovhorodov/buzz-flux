@@ -1,8 +1,8 @@
-﻿use std::fs;
-use anyhow::{Result, bail, Context};
+use anyhow::{bail, Context, Result};
+use serde::Deserialize;
+use std::fs;
 use std::time::Duration;
 use url::Url;
-use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
@@ -28,7 +28,7 @@ pub struct HtmlSource {
     pub name: String,
     pub url: String,
     pub selector: String,
-    pub update_interval: Option<String>
+    pub update_interval: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -40,7 +40,9 @@ pub struct Settings {
 pub trait Source {
     fn get_name(&self) -> &str;
     fn get_update_interval(&self, global_interval: String) -> Duration {
-        let interval = self.get_specific_update_interval().unwrap_or(&global_interval);
+        let interval = self
+            .get_specific_update_interval()
+            .unwrap_or(&global_interval);
         parse_interval(interval).unwrap_or_else(|_| parse_interval(&global_interval).unwrap())
     }
 
@@ -72,8 +74,8 @@ impl Config {
         let config_content = fs::read_to_string(file_path)
             .with_context(|| format!("Failed to read config file: {}", file_path))?;
 
-        let config = toml::from_str(&config_content)
-            .with_context(|| "Failed to parse config.toml")?;
+        let config =
+            toml::from_str(&config_content).with_context(|| "Failed to parse config.toml")?;
 
         Ok(config)
     }
@@ -86,7 +88,8 @@ impl Config {
 
         // Validate website URLs
         for site in &self.sources.html {
-            Url::parse(&site.url).with_context(|| format!("Invalid website URL: {:?}", site.url))?;
+            Url::parse(&site.url)
+                .with_context(|| format!("Invalid website URL: {:?}", site.url))?;
             if site.selector.is_empty() {
                 bail!("CSS selector cacnnot be empty for site: {}", site.name);
             }
@@ -102,30 +105,33 @@ impl Config {
         for source in &self.sources.html {
             if let Some(ref interval) = source.update_interval {
                 parse_interval(interval)?;
-            }           
+            }
         }
 
         Ok(())
     }
-    
-    
 }
 
 fn parse_interval(interval: &str) -> Result<Duration> {
-    let duration = match interval.chars().last()
-    {
+    let duration = match interval.chars().last() {
         Some('s') => {
-            let seconds = interval.trim_end_matches('s').parse::<u64>()
+            let seconds = interval
+                .trim_end_matches('s')
+                .parse::<u64>()
                 .context("Invalid seconds in update_interval")?;
             Duration::from_secs(seconds)
         }
         Some('m') => {
-            let minutes = interval.trim_end_matches('m').parse::<u64>()
+            let minutes = interval
+                .trim_end_matches('m')
+                .parse::<u64>()
                 .context("Invalid minutes in update_interval")?;
             Duration::from_secs(minutes * 60)
         }
         Some('h') => {
-            let hours = interval.trim_end_matches('h').parse::<u64>()
+            let hours = interval
+                .trim_end_matches('h')
+                .parse::<u64>()
                 .context("Invalid hours in update_interval")?;
             Duration::from_secs(hours * 3600)
         }
