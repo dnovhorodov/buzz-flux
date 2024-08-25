@@ -11,6 +11,7 @@ url = "https://blog.ploeh.dk/atom.xml"
 [[sources.rss]]
 name = "DZone"
 url = "https://feeds.dzone.com/home"
+update_interval = "20m"
 
 [[sources.rss]]
 name = "Hacker News"
@@ -22,4 +23,5 @@ url = "https://somewebsite.com/"
 selector = "article h2"
 
 [settings]
-update_interval = "10m"  # Time interval between checks (e.g., 10m, 1h, etc.)
+update_interval = "10m"  # Time interval between checks (e.g., 30s, 10m, 1h, etc.)
+max_concurrent_crawlers = 5

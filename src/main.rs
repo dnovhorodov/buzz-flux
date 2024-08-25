@@ -16,6 +16,7 @@ async fn main() -> Result<(), anyhow::Error>{
     let config = Config::load_config("config.toml")?;
     config.validate()?;
 
+    println!("{:#?}", config);
     // Start the crawling process
     //scheduler::start(config).await?;
 
